@@ -63,19 +63,49 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // The title text which will be shown on the action bar
         title: Text(title),
+        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 0, // Consider a subtle elevation
       ),
-      body: Center(
-        child: Text(
-          'Hello, World!',
-          style: TextStyle(
-            color: Colors.blue, // Change color as needed
-            fontSize: 24, // Change font size
-            fontWeight: FontWeight.bold, // Change font weight
-            fontStyle: FontStyle.italic, // Change font style
-            letterSpacing: 1.5, // Change letter spacing
-            // You can add more styles as needed
+      body: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: AnimatedContainer(
+            duration:
+                const Duration(milliseconds: 500), // Adjust animation duration
+            curve: Curves.easeInOut, // Customize animation curve
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.2), // Semi-transparent blue
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // Handle tap event (e.g., print message, navigate to another screen)
+                      print('Hello World clicked!');
+                    },
+                    child: Text(
+                      'Hello, World!',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                  ),
+                  // Add additional content as needed
+                ],
+              ),
+            ),
           ),
         ),
       ),
