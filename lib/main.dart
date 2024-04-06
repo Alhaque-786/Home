@@ -3,20 +3,53 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
       title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
       theme: ThemeData(
-        // useMaterial3: false,
-        primarySwatch: Colors.green,
+        // Modern Material 3 (if applicable):
+        useMaterial3:
+            true, // Enable Material 3 if your Flutter version supports it
+
+        // Primary color scheme (adapt to your brand):
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(
+              0xFF00C569), // Replace with your desired primary color
+          brightness: Brightness.light,
+        ),
+
+        // Additional theming (adjust as needed):
+        textTheme: const TextTheme(
+          headline6: TextStyle(
+            fontSize: 24.0,
+            fontWeight: FontWeight.bold,
+          ),
+          bodyText2: TextStyle(
+            fontSize: 16.0,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 16.0),
+            primary: const Color(0xFF00C569), // Match primary color
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          color: const Color(0xFF00C569), // Match primary color for app bar
+        ),
+        // Consider theming other widgets like TextFields, Dialogs, etc. for consistency
+
+        // Scaffold background (optional):
+        scaffoldBackgroundColor:
+            Colors.grey[200], // Adjust for desired background
+
+        // Accessibility considerations:
+        visualDensity: VisualDensity
+            .adaptivePlatformDensity, // Ensure proper spacing across platforms
       ),
-      // A widget which will be started on application startup
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -24,7 +57,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   final String title;
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title});
 
   @override
   Widget build(BuildContext context) {
