@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(CalculatorApp());
+void main() => runApp(const CalculatorApp());
 
 class CalculatorApp extends StatelessWidget {
+  const CalculatorApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,12 +12,14 @@ class CalculatorApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CalculatorHomePage(),
+      home: const CalculatorHomePage(),
     );
   }
 }
 
 class CalculatorHomePage extends StatefulWidget {
+  const CalculatorHomePage({super.key});
+
   @override
   _CalculatorHomePageState createState() => _CalculatorHomePageState();
 }
@@ -76,7 +80,7 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
   Widget buildButton(String buttonText, Color buttonColor, Color textColor) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: buttonColor,
           borderRadius: BorderRadius.circular(20),
@@ -97,21 +101,23 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calculator"),
+        title: const Text("Calculator"),
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
             Container(
               alignment: Alignment.centerRight,
-              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
               child: Text(
                 output,
-                style: TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 48.0, fontWeight: FontWeight.bold),
               ),
             ),
-            Expanded(child: Divider()),
+            const Expanded(child: Divider()),
             Column(
               children: [
                 Row(
