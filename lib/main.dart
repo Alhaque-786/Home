@@ -1,112 +1,165 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(CalculatorApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
-  // This widget is the root of your application.
+class CalculatorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Hello World',
+      title: 'Calculator',
       theme: ThemeData(
-        // Modern Material 3 (if applicable):
-        useMaterial3:
-            true, // Enable Material 3 if your Flutter version supports it
-
-        // Primary color scheme (adapt to your brand):
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(
-              0xFF00C569), // Replace with your desired primary color
-          brightness: Brightness.light,
-        ),
-
-        // Additional theming (adjust as needed):
-        textTheme: const TextTheme(
-          headline6: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-          ),
-          bodyText2: TextStyle(
-            fontSize: 16.0,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 16.0),
-            primary: const Color(0xFF00C569), // Match primary color
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          color: const Color(0xFF00C569), // Match primary color for app bar
-        ),
-        // Consider theming other widgets like TextFields, Dialogs, etc. for consistency
-
-        // Scaffold background (optional):
-        scaffoldBackgroundColor:
-            Colors.grey[200], // Adjust for desired background
-
-        // Accessibility considerations:
-        visualDensity: VisualDensity
-            .adaptivePlatformDensity, // Ensure proper spacing across platforms
+        primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: CalculatorHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({Key? key, required this.title});
+class CalculatorHomePage extends StatefulWidget {
+  @override
+  _CalculatorHomePageState createState() => _CalculatorHomePageState();
+}
+
+class _CalculatorHomePageState extends State<CalculatorHomePage> {
+  String output = "0";
+  String _output = "0";
+  double num1 = 0.0;
+  double num2 = 0.0;
+  String operand = "";
+
+  buttonPressed(String buttonText) {
+    if (buttonText == "CLEAR") {
+      _output = "0";
+      num1 = 0.0;
+      num2 = 0.0;
+      operand = "";
+    } else if (buttonText == "+" ||
+        buttonText == "-" ||
+        buttonText == "*" ||
+        buttonText == "/") {
+      num1 = double.parse(output);
+      operand = buttonText;
+      _output = "0";
+    } else if (buttonText == ".") {
+      if (_output.contains(".")) {
+        print("Already contains a decimal");
+        return;
+      } else {
+        _output = _output + buttonText;
+      }
+    } else if (buttonText == "=") {
+      num2 = double.parse(output);
+      if (operand == "+") {
+        _output = (num1 + num2).toString();
+      }
+      if (operand == "-") {
+        _output = (num1 - num2).toString();
+      }
+      if (operand == "*") {
+        _output = (num1 * num2).toString();
+      }
+      if (operand == "/") {
+        _output = (num1 / num2).toString();
+      }
+      num1 = 0.0;
+      num2 = 0.0;
+      operand = "";
+    } else {
+      _output = _output + buttonText;
+    }
+
+    setState(() {
+      output = double.parse(_output).toStringAsFixed(2);
+    });
+  }
+
+  Widget buildButton(String buttonText, Color buttonColor, Color textColor) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: buttonColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: TextButton(
+          onPressed: () => buttonPressed(buttonText),
+          child: Text(
+            buttonText,
+            style: TextStyle(
+                fontSize: 24.0, fontWeight: FontWeight.bold, color: textColor),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Theme.of(context).primaryColor,
-        elevation: 0, // Consider a subtle elevation
+        title: Text("Calculator"),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Center(
-          child: AnimatedContainer(
-            duration:
-                const Duration(milliseconds: 500), // Adjust animation duration
-            curve: Curves.easeInOut, // Customize animation curve
-            decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.2), // Semi-transparent blue
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Handle tap event (e.g., print message, navigate to another screen)
-                      print('Hello World clicked!');
-                    },
-                    child: Text(
-                      'Hello, World!',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
-                  ),
-                  // Add additional content as needed
-                ],
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
+              child: Text(
+                output,
+                style: TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
               ),
             ),
-          ),
+            Expanded(child: Divider()),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildButton("7", Colors.grey[300]!, Colors.black),
+                    buildButton("8", Colors.grey[300]!, Colors.black),
+                    buildButton("9", Colors.grey[300]!, Colors.black),
+                    buildButton("/", Colors.orange, Colors.white),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildButton("4", Colors.grey[300]!, Colors.black),
+                    buildButton("5", Colors.grey[300]!, Colors.black),
+                    buildButton("6", Colors.grey[300]!, Colors.black),
+                    buildButton("*", Colors.orange, Colors.white),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildButton("1", Colors.grey[300]!, Colors.black),
+                    buildButton("2", Colors.grey[300]!, Colors.black),
+                    buildButton("3", Colors.grey[300]!, Colors.black),
+                    buildButton("-", Colors.orange, Colors.white),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildButton(".", Colors.grey[300]!, Colors.black),
+                    buildButton("0", Colors.grey[300]!, Colors.black),
+                    buildButton("00", Colors.grey[300]!, Colors.black),
+                    buildButton("+", Colors.orange, Colors.white),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildButton("CLEAR", Colors.grey[300]!, Colors.black),
+                    buildButton("=", Colors.blue, Colors.white),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
